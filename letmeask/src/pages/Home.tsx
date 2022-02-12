@@ -1,6 +1,6 @@
 import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ref, get } from "firebase/database";
+import { ref, get, onValue } from "firebase/database";
 
 
 import illustrationSvg from "../assets/images/illustration.svg";
@@ -36,11 +36,18 @@ export function Home() {
     }
 
 
-    
    const roomRef = await ref(database, `rooms/${roomCode}`);
 
-   get(roomRef).then((snapshot) =>  {
+
+  await get(roomRef).then((snapshot) =>  {
+
+    console.log(snapshot.val());
      if(snapshot.exists()){
+
+      if(snapshot.val().endedAt){
+        alert('Room has already ended.');
+        return;
+      }
       navigate(`/rooms/${roomCode}`)
 
      }else{
