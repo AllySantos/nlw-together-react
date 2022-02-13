@@ -1,6 +1,6 @@
 import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ref, get, onValue } from "firebase/database";
+import { ref, get } from "firebase/database";
 
 
 import illustrationSvg from "../assets/images/illustration.svg";

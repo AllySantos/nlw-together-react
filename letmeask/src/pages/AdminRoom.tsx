@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import logoImg from "../assets/images/logo.svg";
 import deleteImg from "../assets/images/delete.svg";
+import answerImg from "../assets/images/answer.svg";
 
 import { ref, remove, update } from "firebase/database";
 
@@ -44,9 +45,23 @@ export function AdminRoom() {
 
       remove(questionRef)
 
-    }
+    }  
+  }
 
-   
+  async function handleCheckQuestionAsAnswered(questionId: string){
+    const questionRef = await ref(database, `rooms/${id}/questions/${questionId}`)
+
+    update(questionRef, { isAnswered: true })
+  }
+
+  async function handleHighlightQuestion(questionId: string, questionHilighted: boolean){
+
+    const questionRef = await ref(database, `rooms/${id}/questions/${questionId}`)
+    
+    update(questionRef, { isHighlighted: !questionHilighted })
+
+    
+
   }
  
   return (
@@ -78,7 +93,39 @@ export function AdminRoom() {
                 key={question.id}
                 content={question.content}
                 author={question.author}
+                isAnswered={question.isAnswered}
+                isHighlighted={question.isHighlighted}
               >
+
+
+
+              {
+                !question.isAnswered && (
+                  <>
+
+                      <button
+                        type="button"
+                        onClick={() => handleHighlightQuestion(question.id, question.isHighlighted)}
+                        className="highlight"
+                      >
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="12.0003" cy="11.9998" r="9.00375" stroke="#737380" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M8.44287 12.3391L10.6108 14.507L10.5968 14.493L15.4878 9.60193" stroke="#737380" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleCheckQuestionAsAnswered(question.id)}
+                      >
+                        <img src={answerImg} alt="Tag question as answered" />
+                      </button>
+
+                     
+                  </>
+                )
+
+              }
 
                 <button
                   type="button"

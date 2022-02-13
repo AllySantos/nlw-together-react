@@ -12,12 +12,21 @@
     background: #F4F0FF;
     border: 1px solid #835AFD;
     
+
+
     footer .user-info span {
       color: #29292E;
+    }
+
+    footer div .highlight {
+      svg path, circle{
+        stroke: #835AFD;
+      }
     }
   }
   
   &.answered {
+    border: none;
     background: #DBDCDD;
   }
 
